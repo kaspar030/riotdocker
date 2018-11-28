@@ -19,7 +19,7 @@ RUN \
         apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # install dwq (disque work queue)
-RUN pip3 install dwq
+RUN pip3 install dwq==0.0.41
 
 # install testrunner dependencies
 RUN pip3 install click
