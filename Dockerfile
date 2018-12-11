@@ -12,9 +12,9 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN \
     echo 'Upgrading all system packages to the latest available versions' >&2 && \
     apt-get update && apt-get -y dist-upgrade \
-    && echo 'Installing dwq dependencies' >&2 && \
+    && echo 'Installing dependencies' >&2 && \
     apt-get -y install \
-        python3-pip autossh \
+        python3-pip autossh redis-tools \
     && echo 'Cleaning up installation files' >&2 && \
         apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
