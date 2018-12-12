@@ -25,7 +25,7 @@ RUN pip3 install dwq==0.0.41
 RUN pip3 install click
 
 # get git-cache directly from github
-RUN wget https://github.com/kaspar030/git-cache/raw/master/git-cache \
+RUN wget https://raw.githubusercontent.com/kaspar030/git-cache/d592b43d1887b87ffd5f24bdee1e99979776d1f7/git-cache \
         -O /usr/bin/git-cache \
         && chmod a+x /usr/bin/git-cache
 
