@@ -14,7 +14,7 @@ RUN \
     apt-get update && apt-get -y dist-upgrade \
     && echo 'Installing dependencies' >&2 && \
     apt-get -y install \
-        python3-pip autossh redis-tools \
+        python3-pip autossh python3-setuptools redis-tools \
     && echo 'Cleaning up installation files' >&2 && \
         apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
