@@ -45,6 +45,8 @@ _start() {
         -e CCACHE="ccache" \
         -e CCACHE_MAXSIZE \
         -e DWQ_SSH \
+        ${MURDOCK_CPUSET_CPUS:+--cpuset-cpus=${MURDOCK_CPUSET_CPUS}} \
+        ${MURDOCK_CPUSET_MEMS:+--cpuset-mems=${MURDOCK_CPUSET_MEMS}} \
         --security-opt seccomp=unconfined \
         --name ${MURDOCK_INSTANCE} \
         ${MURDOCK_CONTAINER} \
