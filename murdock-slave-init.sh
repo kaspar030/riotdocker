@@ -28,8 +28,20 @@ mount_ccache_tmpfs() {
     chown -R murdock ${ccache_dir}
 }
 
+mount_gitcache_tmpfs() {
+    local gitcache_dir=${MURDOCK_HOME}/.gitcache
+    mount | grep -q ${gitcache_dir} && return
+
+    git init --bare "$gitcache_dir"
+
+    mount -t tmpfs -o rw,nosuid,nodev,noexec,noatime,size=${MURDOCK_GITCACHE_SIZE:-4g} tmpfs ${gitcache_dir}
+
+    chown -R murdock ${gitcache_dir}
+}
+
 _start() {
     [ "$MURDOCK_CCACHE_TMPFS" = "1" ] && mount_ccache_tmpfs
+    [ "$MURDOCK_GITCACHE_TMPFS" = "1" ] && mount_gitcache_tmpfs
 
     if [ "$MURDOCK_SYSTEMD" = "1" ]; then
         MURDOCK_DETACH=""
@@ -41,6 +53,7 @@ _start() {
         --tmpfs /tmp:size=${MURDOCK_TMPFS_SIZE},exec,nosuid \
         -v ${MURDOCK_HOME}:/data/riotbuild \
         ${MURDOCK_CCACHEDIR:+-v ${MURDOCK_CCACHEDIR}:/data/riotbuild/.ccache} \
+        ${MURDOCK_GITCACHEDIR:+-v ${MURDOCK_GITCACHEDIR}:/data/riotbuild/.gitcache} \
         ${MURDOCK_DOCKER_ARGS} \
         -e CCACHE="ccache" \
         -e CCACHE_MAXSIZE \
