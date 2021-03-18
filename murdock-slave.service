@@ -4,15 +4,20 @@ After=docker.service
 Requires=docker.service
 
 [Service]
+Type=oneshot
 TimeoutStartSec=0
-Restart=always
+#Restart=always
+RemainAfterExit=true
+StandardOutput=journal
 Environment=MURDOCK_INSTANCE=%n
 Environment=MURDOCK_SYSTEMD=1
-Environment=MURDOCK_CCACHE_TMPFS=1
-ExecStartPre=-/usr/bin/docker stop %n
-ExecStartPre=-/usr/bin/docker rm %n
+Environment=MURDOCK_NUMA=1
+Environment=MURDOCK_WORKERS=1
+Environment=RIOT_JOBS=8
+#ExecStartPre=-/usr/local/bin/murdock-slave-init.sh stop
 ExecStartPre=/usr/bin/docker pull kaspar030/riotdocker:latest
 ExecStart=/usr/local/bin/murdock-slave-init.sh start
+ExecStop=/usr/local/bin/murdock-slave-init.sh stop
 
 [Install]
 WantedBy=multi-user.target
